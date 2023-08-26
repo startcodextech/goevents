@@ -32,17 +32,19 @@ func (bus *QueryEvents) Subscribe(query string, handler goevents.QuerySubscribeH
 	bus.subscribers[query] = subscribers
 }
 
-func (bus *QueryEvents) Publish(ctx context.Context, query goevents.Query) error {
+func (bus *QueryEvents) Publish(ctx context.Context, query goevents.Query) (goevents.Payload, error) {
 	handler, exists := bus.handlers[query.Name]
 	if !exists {
-		return goevents.ErrNoExitsTopic
+		return nil, goevents.ErrNoExitsTopic
 	}
 
 	errChan := make(chan error, 1)
+	result := make(chan []byte, 1)
 
 	go func(ctx context.Context, query goevents.Query, queryHandler goevents.QueryHandler) {
 		payload, err := queryHandler(ctx, query)
 		if err != nil {
+			result <- nil
 			errChan <- err
 			return
 		}
@@ -54,14 +56,16 @@ func (bus *QueryEvents) Publish(ctx context.Context, query goevents.Query) error
 				}(ctx, query, payload, subscriber)
 			}
 		}
-
+		result <- payload
 		errChan <- nil
 	}(ctx, query, handler)
 
 	err := <-errChan
+	payload := <-result
 	close(errChan)
+	close(result)
 
-	return err
+	return payload, err
 }
 
 func (bus *QueryEvents) RegisterHandler(query string, handler goevents.QueryHandler) {
