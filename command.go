@@ -2,7 +2,7 @@ package goevents
 
 import (
 	"context"
-	"github.com/start-codex/utils/id"
+	"github.com/start-codex/goutils/id"
 	"time"
 )
 
