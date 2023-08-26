@@ -7,7 +7,7 @@ import (
 )
 
 type (
-	Params interface{}
+	Params []byte
 
 	Command struct {
 		MessageID     string    `json:"message_id"`
@@ -27,7 +27,7 @@ type (
 	}
 )
 
-func CreateCommand(name string, payload Params) Command {
+func CreateCommand(name string, params Params) Command {
 	mID, _ := id.New()
 	cID, _ := id.New()
 	return Command{
@@ -35,7 +35,7 @@ func CreateCommand(name string, payload Params) Command {
 		CorrelationID: "cid:" + cID.String(),
 		Name:          name,
 		Created:       time.Now(),
-		Params:        payload,
+		Params:        params,
 	}
 }
 

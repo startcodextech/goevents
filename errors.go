@@ -1,7 +1,8 @@
 package goevents
 
-import goerror "github.com/start-codex/errors"
+import (
+	"github.com/start-codex/goerrors"
+)
 
-const ErrPayloadNil = goerror.Error("interface{} is nil")
-const ErrPayloadTypeAssertion = goerror.Error("interface{} is not of type %T")
-const ErrNoExitsTopic = goerror.Error("Topic is not exists")
+const ErrNoExitsCommand = goerrors.Error("Code: ErrNoExitsCommand Message: Command name is not exists Technical: ")
+const ErrNoExitsQuery = goerrors.Error("Code: ErrNoExitsQuery Message: Query name is not exists Technical: ")

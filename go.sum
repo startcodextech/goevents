@@ -1,6 +1,6 @@
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
-github.com/start-codex/errors v0.0.2 h1:mFoGpY5hr42W3dhvIxih9S/gt6TNVJY9XbvYqrequ/U=
-github.com/start-codex/errors v0.0.2/go.mod h1:dEszvqM6nAjnk1IQNbP9tXQxnImjQ7thcmDtJ8DbPF4=
+github.com/start-codex/goerrors v0.0.4 h1:xb0gfqPxKo/mIphnejBb4qI4qh226N+lD5DaiEK8WaU=
+github.com/start-codex/goerrors v0.0.4/go.mod h1:BOTim6KRGR4az4gYEVIuaEbms1V9Vh21c/PBnCV5K/c=
 github.com/start-codex/utils v0.0.5 h1:9l7rlnlPe6X7di44BASDu7G+VaTY6vblQxFLmMAA/QE=
 github.com/start-codex/utils v0.0.5/go.mod h1:XZBlJPfmIBq0ibOF5uvMgqmf9g8NU1AeMDKI7oanOQk=

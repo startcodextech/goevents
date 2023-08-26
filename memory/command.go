@@ -35,7 +35,7 @@ func (bus *CommandEvents) Subscribe(command string, handler goevents.CommandSubs
 func (bus *CommandEvents) Publish(ctx context.Context, command goevents.Command) error {
 	handler, exists := bus.handlers[command.Name]
 	if !exists {
-		return goevents.ErrNoExitsTopic
+		return goevents.ErrNoExitsCommand
 	}
 
 	errChan := make(chan error, 1)
