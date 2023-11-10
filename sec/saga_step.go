@@ -2,7 +2,7 @@ package sec
 
 import (
 	"context"
-	"github.com/start-codex/goevents/ddd"
+	"github.com/startcodextech/goevents/ddd"
 )
 
 type (

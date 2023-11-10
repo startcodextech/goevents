@@ -1,8 +1,8 @@
 package store
 
 import (
-	"github.com/start-codex/goevents/asyncmessages"
-	"github.com/start-codex/goevents/ddd"
+	"github.com/startcodextech/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/ddd"
 	"go.mongodb.org/mongo-driver/bson"
 	"time"
 )

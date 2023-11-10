@@ -3,8 +3,8 @@ package sql
 import (
 	"context"
 	"fmt"
-	"github.com/start-codex/goevents/registry"
-	"github.com/start-codex/goevents/sec"
+	"github.com/startcodextech/goevents/registry"
+	"github.com/startcodextech/goevents/sec"
 )
 
 type SagaStore struct {

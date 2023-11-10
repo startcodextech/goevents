@@ -2,8 +2,8 @@ package config
 
 import (
 	"fmt"
-	"github.com/start-codex/goevents/rpc"
-	"github.com/start-codex/goevents/web"
+	"github.com/startcodextech/goevents/rpc"
+	"github.com/startcodextech/goevents/web"
 	"os"
 	"time"
 )

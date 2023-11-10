@@ -8,8 +8,8 @@ import (
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgerrcode"
 	"github.com/stackus/errors"
-	"github.com/start-codex/goevents/asyncmessages"
-	"github.com/start-codex/goevents/transactionmanager"
+	"github.com/startcodextech/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/transactionmanager"
 )
 
 type (

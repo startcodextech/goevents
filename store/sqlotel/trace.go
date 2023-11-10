@@ -6,7 +6,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/jackc/pgconn"
 	"github.com/stackus/errors"
-	sql2 "github.com/start-codex/goevents/store/sql"
+	sql2 "github.com/startcodextech/goevents/store/sql"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/trace"
 	"strconv"

@@ -1,9 +1,9 @@
-package eventsource
+package eventsourcing
 
 import (
 	"context"
-	"github.com/start-codex/goevents/ddd"
-	"github.com/start-codex/goutils/id"
+	"github.com/startcodextech/goevents/ddd"
+	"github.com/startcodextech/goutils/id"
 )
 
 type (

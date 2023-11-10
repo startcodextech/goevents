@@ -1,6 +1,6 @@
-package eventsource
+package eventsourcing
 
-import "github.com/start-codex/goevents/ddd"
+import "github.com/startcodextech/goevents/ddd"
 
 type (
 	Versioner interface {

@@ -1,8 +1,8 @@
 package store
 
 import (
-	"github.com/start-codex/goevents/ddd"
-	"github.com/start-codex/goevents/eventsource"
+	"github.com/startcodextech/goevents/ddd"
+	"github.com/startcodextech/goevents/eventsourcing"
 	"time"
 )
 
@@ -12,7 +12,7 @@ type (
 		name       string
 		payload    ddd.EventPayload
 		occurredAt time.Time
-		aggregate  eventsource.EventSourcedAggregate
+		aggregate  eventsourcing.EventSourcedAggregate
 		version    int
 	}
 )
@@ -42,7 +42,7 @@ func (e *AggregateEvent) WithPayload(payload ddd.EventPayload) *AggregateEvent {
 	return e
 }
 
-func (e *AggregateEvent) WithAggregate(aggregate eventsource.EventSourcedAggregate) *AggregateEvent {
+func (e *AggregateEvent) WithAggregate(aggregate eventsourcing.EventSourcedAggregate) *AggregateEvent {
 	e.aggregate = aggregate
 	return e
 }

@@ -3,8 +3,8 @@ package mongo
 import (
 	"context"
 	"encoding/json"
-	"github.com/start-codex/goevents/asyncmessages"
-	"github.com/start-codex/goevents/transactionmanager"
+	"github.com/startcodextech/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/transactionmanager"
 	"go.mongodb.org/mongo-driver/bson"
 )
 

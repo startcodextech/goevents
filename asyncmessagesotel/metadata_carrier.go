@@ -2,7 +2,7 @@ package asyncmessagesotel
 
 import (
 	"fmt"
-	"github.com/start-codex/goevents/ddd"
+	"github.com/startcodextech/goevents/ddd"
 	"go.opentelemetry.io/otel/propagation"
 	"strconv"
 )

@@ -6,8 +6,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/nats-io/nats.go"
 	"github.com/rs/zerolog"
-	"github.com/start-codex/goevents/config"
-	"github.com/start-codex/goevents/waiter"
+	"github.com/startcodextech/goevents/config"
+	"github.com/startcodextech/goevents/waiter"
 	"google.golang.org/grpc"
 )
 

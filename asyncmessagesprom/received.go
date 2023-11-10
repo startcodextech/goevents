@@ -3,7 +3,7 @@ package asyncmessagesprom
 import (
 	"context"
 	"fmt"
-	"github.com/start-codex/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/asyncmessages"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
