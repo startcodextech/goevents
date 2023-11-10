@@ -5,9 +5,9 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/stackus/errors"
-	"github.com/start-codex/goevents/eventsource"
-	"github.com/start-codex/goevents/registry"
-	"github.com/start-codex/goevents/store"
+	"github.com/startcodextech/goevents/eventsource"
+	"github.com/startcodextech/goevents/registry"
+	"github.com/startcodextech/goevents/store"
 	"strings"
 	"time"
 )

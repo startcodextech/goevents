@@ -1,8 +1,8 @@
 package store
 
 import (
-	"github.com/start-codex/goevents/ddd"
-	"github.com/start-codex/goevents/eventsource"
+	"github.com/startcodextech/goevents/ddd"
+	"github.com/startcodextech/goevents/eventsource"
 	"time"
 )
 

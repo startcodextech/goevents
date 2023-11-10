@@ -1,6 +1,6 @@
 package sec
 
-import "github.com/start-codex/goevents/asyncmessages"
+import "github.com/startcodextech/goevents/asyncmessages"
 
 const (
 	SagaCommandIDHdr   = asyncmessages.CommandHdrPrefix + "SAGA_ID"

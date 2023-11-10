@@ -2,8 +2,8 @@ package asyncmessages
 
 import (
 	"context"
-	"github.com/start-codex/goevents/ddd"
-	"github.com/start-codex/goevents/registry"
+	"github.com/startcodextech/goevents/ddd"
+	"github.com/startcodextech/goevents/registry"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"

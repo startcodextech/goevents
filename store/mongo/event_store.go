@@ -3,9 +3,9 @@ package mongo
 import (
 	"context"
 	"github.com/stackus/errors"
-	"github.com/start-codex/goevents/eventsource"
-	"github.com/start-codex/goevents/registry"
-	"github.com/start-codex/goevents/store"
+	"github.com/startcodextech/goevents/eventsource"
+	"github.com/startcodextech/goevents/registry"
+	"github.com/startcodextech/goevents/store"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

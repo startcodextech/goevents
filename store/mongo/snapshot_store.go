@@ -3,8 +3,8 @@ package mongo
 import (
 	"context"
 	"fmt"
-	"github.com/start-codex/goevents/eventsource"
-	"github.com/start-codex/goevents/registry"
+	"github.com/startcodextech/goevents/eventsource"
+	"github.com/startcodextech/goevents/registry"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

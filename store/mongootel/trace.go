@@ -2,7 +2,7 @@ package mongotel
 
 import (
 	"context"
-	mongo2 "github.com/start-codex/goevents/store/mongo"
+	mongo2 "github.com/startcodextech/goevents/store/mongo"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.opentelemetry.io/otel/attribute"

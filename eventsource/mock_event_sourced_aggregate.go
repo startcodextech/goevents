@@ -3,7 +3,7 @@
 package eventsource
 
 import (
-	ddd "github.com/start-codex/goevents/ddd"
+	ddd "github.com/startcodextech/goevents/ddd"
 	mock "github.com/stretchr/testify/mock"
 )
 

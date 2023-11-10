@@ -2,7 +2,7 @@ package asyncmessagesotel
 
 import (
 	"context"
-	"github.com/start-codex/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/asyncmessages"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
