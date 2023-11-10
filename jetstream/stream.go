@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/nats-io/nats.go"
 	"github.com/rs/zerolog"
-	"github.com/start-codex/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/asyncmessages"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"

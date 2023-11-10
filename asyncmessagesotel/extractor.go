@@ -7,7 +7,7 @@ import (
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
 
-	"github.com/start-codex/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/asyncmessages"
 )
 
 func OtelMessageContextExtractor() asyncmessages.MessageHandlerMiddleware {

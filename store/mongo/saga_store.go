@@ -2,8 +2,8 @@ package mongo
 
 import (
 	"context"
-	"github.com/start-codex/goevents/registry"
-	"github.com/start-codex/goevents/sec"
+	"github.com/startcodextech/goevents/registry"
+	"github.com/startcodextech/goevents/sec"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )

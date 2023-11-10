@@ -2,7 +2,7 @@ package sec
 
 import (
 	"context"
-	"github.com/start-codex/goevents/registry"
+	"github.com/startcodextech/goevents/registry"
 
 	"github.com/stackus/errors"
 )

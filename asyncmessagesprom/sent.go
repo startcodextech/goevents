@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
-	"github.com/start-codex/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/asyncmessages"
 )
 
 func SentMessagesCounter(serviceName string) asyncmessages.MessagePublisherMiddleware {

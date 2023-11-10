@@ -1,7 +1,7 @@
 package ddd
 
 import (
-	"github.com/start-codex/goutils/id"
+	"github.com/startcodextech/goutils/id"
 	"time"
 )
 

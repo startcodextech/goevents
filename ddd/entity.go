@@ -1,6 +1,6 @@
 package ddd
 
-import "github.com/start-codex/goutils/id"
+import "github.com/startcodextech/goutils/id"
 
 type (
 	EntityNamer interface {

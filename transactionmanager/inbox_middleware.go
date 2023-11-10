@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/stackus/errors"
-	"github.com/start-codex/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/asyncmessages"
 )
 
 type (

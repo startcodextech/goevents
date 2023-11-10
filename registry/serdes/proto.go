@@ -2,7 +2,7 @@ package serdes
 
 import (
 	"fmt"
-	"github.com/start-codex/goevents/registry"
+	"github.com/startcodextech/goevents/registry"
 	"google.golang.org/protobuf/proto"
 	"reflect"
 )

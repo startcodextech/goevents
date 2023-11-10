@@ -2,7 +2,7 @@ package serdes
 
 import (
 	"encoding/json"
-	"github.com/start-codex/goevents/registry"
+	"github.com/startcodextech/goevents/registry"
 )
 
 type (

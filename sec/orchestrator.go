@@ -2,9 +2,9 @@ package sec
 
 import (
 	"context"
-	"github.com/start-codex/goevents/asyncmessages"
-	"github.com/start-codex/goevents/ddd"
-	"github.com/start-codex/goevents/errorsotel"
+	"github.com/startcodextech/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/ddd"
+	"github.com/startcodextech/goevents/errorsotel"
 	"time"
 
 	"github.com/stackus/errors"

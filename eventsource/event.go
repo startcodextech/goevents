@@ -2,7 +2,7 @@ package eventsource
 
 import (
 	"fmt"
-	"github.com/start-codex/goevents/ddd"
+	"github.com/startcodextech/goevents/ddd"
 )
 
 type (

@@ -3,7 +3,7 @@ package ddd
 import (
 	"context"
 	"github.com/google/uuid"
-	"github.com/start-codex/goutils/id"
+	"github.com/startcodextech/goutils/id"
 	"time"
 )
 
