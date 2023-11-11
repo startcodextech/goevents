@@ -3,7 +3,7 @@ package mongo
 import (
 	"context"
 	"github.com/stackus/errors"
-	"github.com/startcodextech/goevents/eventsource"
+	"github.com/startcodextech/goevents/eventsourcing"
 	"github.com/startcodextech/goevents/registry"
 	"github.com/startcodextech/goevents/store"
 	"go.mongodb.org/mongo-driver/bson"
@@ -18,7 +18,7 @@ type (
 	}
 )
 
-var _ eventsource.AggregateStore = (*EventStore)(nil)
+var _ eventsourcing.AggregateStore = (*EventStore)(nil)
 
 func NewEventStore(collectionName string, collection Collection, registry registry.Registry) EventStore {
 	return EventStore{
@@ -27,7 +27,7 @@ func NewEventStore(collectionName string, collection Collection, registry regist
 	}
 }
 
-func (s EventStore) Load(ctx context.Context, aggregate eventsource.EventSourcedAggregate) (err error) {
+func (s EventStore) Load(ctx context.Context, aggregate eventsourcing.EventSourcedAggregate) (err error) {
 	aggregateID := aggregate.ID()
 	aggregateName := aggregate.AggregateName()
 
@@ -57,14 +57,14 @@ func (s EventStore) Load(ctx context.Context, aggregate eventsource.EventSourced
 			return err
 		}
 
-		if err = eventsource.LoadEvent(aggregate, event); err != nil {
+		if err = eventsourcing.LoadEvent(aggregate, event); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func (s EventStore) Save(ctx context.Context, aggregate eventsource.EventSourcedAggregate) (err error) {
+func (s EventStore) Save(ctx context.Context, aggregate eventsourcing.EventSourcedAggregate) (err error) {
 	aggregateID := aggregate.ID()
 	aggregateName := aggregate.AggregateName()
 

@@ -1,3 +1,3 @@
-package eventsource
+package eventsourcing
 
 //go:generate mockery --quiet --name ".*(Aggregate|Repository|Store|Handler)$"  --inpackage --case underscore

@@ -1,4 +1,4 @@
-package eventsource
+package eventsourcing
 
 import "github.com/startcodextech/goevents/ddd"
 
