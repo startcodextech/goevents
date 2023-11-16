@@ -16,14 +16,21 @@ type SnapshotStore struct {
 	registry   registry.Registry
 }
 
-func NewSnapshotStore(collection Collection, registry registry.Registry) *SnapshotStore {
-	return &SnapshotStore{
+var _ esourcing.AggregateStore = (*SnapshotStore)(nil)
+
+func NewSnapshotStore(collection Collection, registry registry.Registry) esourcing.AggregateStoreMiddleware {
+	snapshots := SnapshotStore{
 		collection: collection,
 		registry:   registry,
 	}
+
+	return func(store esourcing.AggregateStore) esourcing.AggregateStore {
+		snapshots.AggregateStore = store
+		return snapshots
+	}
 }
 
-func (s *SnapshotStore) Load(ctx context.Context, aggregate esourcing.EventSourcedAggregate) error {
+func (s SnapshotStore) Load(ctx context.Context, aggregate esourcing.EventSourcedAggregate) error {
 	filter := bson.M{"stream_id": aggregate.ID(), "stream_name": aggregate.AggregateName()}
 	opts := options.FindOne().SetSort(bson.D{{"stream_version", -1}}) // To get the latest snapshot
 
@@ -53,7 +60,7 @@ func (s *SnapshotStore) Load(ctx context.Context, aggregate esourcing.EventSourc
 	return s.AggregateStore.Load(ctx, aggregate)
 }
 
-func (s *SnapshotStore) Save(ctx context.Context, aggregate esourcing.EventSourcedAggregate) error {
+func (s SnapshotStore) Save(ctx context.Context, aggregate esourcing.EventSourcedAggregate) error {
 	if err := s.AggregateStore.Save(ctx, aggregate); err != nil {
 		return err
 	}
