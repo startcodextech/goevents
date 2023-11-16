@@ -1,7 +1,7 @@
 package jetstream
 
 import (
-	"github.com/startcodextech/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/async"
 	"github.com/startcodextech/goevents/ddd"
 	"time"
 )
@@ -23,7 +23,7 @@ type (
 	}
 )
 
-var _ asyncmessages.Message = (*rawMessage)(nil)
+var _ async.Message = (*rawMessage)(nil)
 
 func (m *rawMessage) ID() string             { return m.id }
 func (m *rawMessage) Subject() string        { return m.subject }

@@ -1,7 +1,7 @@
 package store
 
 import (
-	"github.com/startcodextech/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/async"
 	"github.com/startcodextech/goevents/ddd"
 	"go.mongodb.org/mongo-driver/bson"
 	"time"
@@ -81,7 +81,7 @@ func (m *OutboxMessage) UnmarshalBSON(data []byte) error {
 	return nil
 }
 
-var _ asyncmessages.Message = (*OutboxMessage)(nil)
+var _ async.Message = (*OutboxMessage)(nil)
 
 func (m OutboxMessage) ID() string             { return m.id }
 func (m OutboxMessage) Subject() string        { return m.subject }

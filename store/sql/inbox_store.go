@@ -8,8 +8,8 @@ import (
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgerrcode"
 	"github.com/stackus/errors"
-	"github.com/startcodextech/goevents/asyncmessages"
-	"github.com/startcodextech/goevents/transactionmanager"
+	"github.com/startcodextech/goevents/async"
+	"github.com/startcodextech/goevents/transmanager"
 )
 
 type (
@@ -19,7 +19,7 @@ type (
 	}
 )
 
-var _ transactionmanager.InboxStore = (*InboxStore)(nil)
+var _ transmanager.InboxStore = (*InboxStore)(nil)
 
 func NewInboxStore(tableName string, db DB) InboxStore {
 	return InboxStore{
@@ -28,7 +28,7 @@ func NewInboxStore(tableName string, db DB) InboxStore {
 	}
 }
 
-func (s InboxStore) Save(ctx context.Context, msg asyncmessages.IncomingMessage) error {
+func (s InboxStore) Save(ctx context.Context, msg async.IncomingMessage) error {
 	metadata, err := json.Marshal(msg.Metadata())
 	if err != nil {
 		return err
@@ -41,14 +41,14 @@ func (s InboxStore) Save(ctx context.Context, msg asyncmessages.IncomingMessage)
 			var mysqlErr *mysql.MySQLError
 			if errors.As(err, &mysqlErr) {
 				if mysqlErr.Number == 1062 {
-					return transactionmanager.ErrDuplicateMessage(msg.ID())
+					return transmanager.ErrDuplicateMessage(msg.ID())
 				}
 			}
 		default:
 			var pgErr *pgconn.PgError
 			if errors.As(err, &pgErr) {
 				if pgErr.Code == pgerrcode.UniqueViolation {
-					return transactionmanager.ErrDuplicateMessage(msg.ID())
+					return transmanager.ErrDuplicateMessage(msg.ID())
 				}
 			}
 		}

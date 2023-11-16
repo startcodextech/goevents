@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/stackus/errors"
-	"github.com/startcodextech/goevents/eventsourcing"
+	"github.com/startcodextech/goevents/esourcing"
 	"github.com/startcodextech/goevents/registry"
 	"github.com/startcodextech/goevents/store"
 	"strings"
@@ -20,7 +20,7 @@ type (
 	}
 )
 
-var _ eventsourcing.AggregateStore = (*EventStore)(nil)
+var _ esourcing.AggregateStore = (*EventStore)(nil)
 
 func NewEventStore(tableName string, db DB, registry registry.Registry) EventStore {
 	return EventStore{
@@ -30,7 +30,7 @@ func NewEventStore(tableName string, db DB, registry registry.Registry) EventSto
 	}
 }
 
-func (s EventStore) Load(ctx context.Context, aggregate eventsourcing.EventSourcedAggregate) (err error) {
+func (s EventStore) Load(ctx context.Context, aggregate esourcing.EventSourcedAggregate) (err error) {
 	aggregateID := aggregate.ID()
 	aggregateName := aggregate.AggregateName()
 
@@ -73,14 +73,14 @@ func (s EventStore) Load(ctx context.Context, aggregate eventsourcing.EventSourc
 			WithOccurredAt(occurredAt).
 			Build()
 
-		if err = eventsourcing.LoadEvent(aggregate, event); err != nil {
+		if err = esourcing.LoadEvent(aggregate, event); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func (s EventStore) Save(ctx context.Context, aggregate eventsourcing.EventSourcedAggregate) (err error) {
+func (s EventStore) Save(ctx context.Context, aggregate esourcing.EventSourcedAggregate) (err error) {
 	const query = "INSERT INTO %s (stream_id, stream_name, stream_version, event_id, event_name, event_data, occurred_at) VALUES"
 
 	aggregateID := aggregate.ID()

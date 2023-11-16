@@ -235,6 +235,8 @@ github.com/jtolds/gls v4.20.0+incompatible/go.mod h1:QJZ7F/aHp+rZTRtaJ1ow/lLfFfV
 github.com/julienschmidt/httprouter v1.2.0/go.mod h1:SYymIcj16QtmaHHD7aYtjjsJG7VTCxuUUipMqKk8s4w=
 github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 h1:Z9n2FFNUXsshfwJMBgNA0RU6/i7WVaAegv3PtuIHPMs=
 github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51/go.mod h1:CzGEWj7cYgsdH8dAjBGEr58BoE7ScuLd+fwFZ44+/x8=
+github.com/kelseyhightower/envconfig v1.4.0 h1:Im6hONhd3pLkfDFsbRgu68RDNkGF1r3dvMUtDTo2cv8=
+github.com/kelseyhightower/envconfig v1.4.0/go.mod h1:cccZRl6mQpaq41TPp5QxidR+Sa3axMbJDNb//FQX6Gg=
 github.com/kisielk/errcheck v1.1.0/go.mod h1:EZBBE59ingxPouuu3KfxchcWSUPOHkagtvWXihfKN4Q=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
@@ -364,8 +366,6 @@ github.com/spf13/pflag v1.0.5/go.mod h1:McXfInJRrz4CZXVZOBLb0bTZqETkiAhM9Iw0y3An
 github.com/spf13/viper v1.7.0/go.mod h1:8WkrPz2fc9jxqZNCJI/76HCieCp4Q8HaLFoCha5qpdg=
 github.com/stackus/errors v0.1.5 h1:YYEPJcA4xeSL6x0ph4IMKpCbdXgchgrchf9Y1nCoeow=
 github.com/stackus/errors v0.1.5/go.mod h1:STqk7YsxsPwkoFmz2Q7/VuskeyPhqUi+mCGm9hYRxOM=
-github.com/start-codex/goutils v0.0.8 h1:Zv+gAmieUB0VFAbDNJBFKPAOYWrl5zK5GeOrZYnSc9k=
-github.com/start-codex/goutils v0.0.8/go.mod h1:6MXcmkxwxpTqwq+fACW/pwiHTK64nF6ZDbY/XLNuQlk=
 github.com/startcodextech/goutils v0.0.9 h1:GrW2KVZDO3xt+o96PycIHOghj8pU2xl5PquNazCB62Q=
 github.com/startcodextech/goutils v0.0.9/go.mod h1:zTGmei22VLepSCj9D4sz8+Neqrok8lGq4mVFiT6VIsw=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

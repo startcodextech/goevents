@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/nats-io/nats.go"
 	"github.com/rs/zerolog"
-	"github.com/startcodextech/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/async"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -22,7 +22,7 @@ type Stream struct {
 	logger     zerolog.Logger
 }
 
-var _ asyncmessages.MessageStream = (*Stream)(nil)
+var _ async.MessageStream = (*Stream)(nil)
 
 func NewStream(streamName string, js nats.JetStreamContext, logger zerolog.Logger) *Stream {
 	return &Stream{
@@ -32,7 +32,7 @@ func NewStream(streamName string, js nats.JetStreamContext, logger zerolog.Logge
 	}
 }
 
-func (s *Stream) Publish(ctx context.Context, topicName string, rawMsg asyncmessages.Message) (err error) {
+func (s *Stream) Publish(ctx context.Context, topicName string, rawMsg async.Message) (err error) {
 	var data []byte
 
 	metadata, err := structpb.NewStruct(rawMsg.Metadata())
@@ -88,13 +88,13 @@ func (s *Stream) Publish(ctx context.Context, topicName string, rawMsg asyncmess
 	return
 }
 
-func (s *Stream) Subscribe(topicName string, handler asyncmessages.MessageHandler, options ...asyncmessages.SubscriberOption) (asyncmessages.Subscription, error) {
+func (s *Stream) Subscribe(topicName string, handler async.MessageHandler, options ...async.SubscriberOption) (async.Subscription, error) {
 	var err error
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	subCfg := asyncmessages.NewSubscriberConfig(options)
+	subCfg := async.NewSubscriberConfig(options)
 
 	opts := []nats.SubOpt{
 		nats.MaxDeliver(subCfg.MaxRedeliver()),
@@ -112,7 +112,7 @@ func (s *Stream) Subscribe(topicName string, handler asyncmessages.MessageHandle
 		opts = append(opts, nats.Bind(s.streamName, groupName), nats.Durable(groupName))
 	}
 
-	if ackType := subCfg.AckType(); ackType != asyncmessages.AckTypeAuto {
+	if ackType := subCfg.AckType(); ackType != async.AckTypeAuto {
 		ackWait := subCfg.AckWait()
 
 		cfg.AckPolicy = nats.AckExplicitPolicy
@@ -155,7 +155,7 @@ func (s *Stream) Unsubscribe() error {
 	return nil
 }
 
-func (s *Stream) handleMsg(cfg asyncmessages.SubscriberConfig, handler asyncmessages.MessageHandler) func(*nats.Msg) {
+func (s *Stream) handleMsg(cfg async.SubscriberConfig, handler async.MessageHandler) func(*nats.Msg) {
 	var filters map[string]struct{}
 	if len(cfg.MessageFilters()) > 0 {
 		filters = make(map[string]struct{})
@@ -207,7 +207,7 @@ func (s *Stream) handleMsg(cfg asyncmessages.SubscriberConfig, handler asyncmess
 			errc <- handler.HandleMessage(wCtx, msg)
 		}()
 
-		if cfg.AckType() == asyncmessages.AckTypeAuto {
+		if cfg.AckType() == async.AckTypeAuto {
 			err = msg.Ack()
 			if err != nil {
 				s.logger.Warn().Err(err).Msg("failed to auto-Ack a message")

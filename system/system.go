@@ -14,6 +14,8 @@ import (
 	"github.com/startcodextech/goevents/config"
 	"github.com/startcodextech/goevents/logger"
 	"github.com/startcodextech/goevents/waiter"
+	"go.mongodb.org/mongo-driver/mongo"
+	options2 "go.mongodb.org/mongo-driver/mongo/options"
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
@@ -30,15 +32,16 @@ import (
 
 type (
 	System struct {
-		cfg    config.AppConfig
-		db     *sql.DB
-		nc     *nats.Conn
-		js     nats.JetStreamContext
-		mux    *chi.Mux
-		rpc    *grpc.Server
-		waiter waiter.Waiter
-		logger zerolog.Logger
-		tp     *sdktrace.TracerProvider
+		cfg     config.AppConfig
+		db      *sql.DB
+		mongodb *mongo.Client
+		nc      *nats.Conn
+		js      nats.JetStreamContext
+		mux     *chi.Mux
+		rpc     *grpc.Server
+		waiter  waiter.Waiter
+		logger  zerolog.Logger
+		tp      *sdktrace.TracerProvider
 	}
 )
 
@@ -90,11 +93,21 @@ func (s *System) Config() config.AppConfig {
 }
 
 func (s *System) initDB() (err error) {
-	s.db, err = sql.Open("pgx", s.cfg.PG.Conn)
-	return err
+	switch s.cfg.DB.Driver {
+	case "mongo":
+		options := options2.Client().ApplyURI(s.cfg.DB.Conn)
+		s.mongodb, err = mongo.Connect(context.Background(), options)
+		return err
+	default:
+		s.db, err = sql.Open(s.cfg.DB.Driver, s.cfg.DB.Conn)
+		return err
+	}
 }
 
 func (s *System) MigrateDB(fs fs.FS) error {
+	if s.cfg.DB.Driver == "mongo" {
+		return fmt.Errorf("It is not allowed because a SQL database is not managed")
+	}
 	goose.SetBaseFS(fs)
 	if err := goose.SetDialect("sql"); err != nil {
 		return err
@@ -105,8 +118,22 @@ func (s *System) MigrateDB(fs fs.FS) error {
 	return nil
 }
 
-func (s *System) DB() *sql.DB {
+// SqlDB returns a pointer to the sql.DB instance associated with the System.
+// This method provides access to the SQL database client, which can be used
+// for executing SQL queries and operations. It is important to ensure that
+// the System instance has been properly initialized and connected to the
+// database before calling this method.
+func (s *System) SqlDB() *sql.DB {
 	return s.db
+}
+
+// MongoDB returns a pointer to the mongo.Client instance associated with the System.
+// This method provides access to the MongoDB client, allowing for operations
+// such as querying and manipulating documents within MongoDB collections. Similar
+// to DB(), it is crucial to ensure that the System has been appropriately initialized
+// and connected to a MongoDB instance before invoking this method.
+func (s *System) MongoDB() *mongo.Client {
+	return s.mongodb
 }
 
 func (s *System) initJS() (err error) {
