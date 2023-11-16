@@ -3,7 +3,7 @@ package mongo
 import (
 	"context"
 	"fmt"
-	"github.com/startcodextech/goevents/eventsourcing"
+	"github.com/startcodextech/goevents/esourcing"
 	"github.com/startcodextech/goevents/registry"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -11,7 +11,7 @@ import (
 )
 
 type SnapshotStore struct {
-	eventsourcing.AggregateStore
+	esourcing.AggregateStore
 	collection Collection
 	registry   registry.Registry
 }
@@ -23,7 +23,7 @@ func NewSnapshotStore(collection Collection, registry registry.Registry) *Snapsh
 	}
 }
 
-func (s *SnapshotStore) Load(ctx context.Context, aggregate eventsourcing.EventSourcedAggregate) error {
+func (s *SnapshotStore) Load(ctx context.Context, aggregate esourcing.EventSourcedAggregate) error {
 	filter := bson.M{"stream_id": aggregate.ID(), "stream_name": aggregate.AggregateName()}
 	opts := options.FindOne().SetSort(bson.D{{"stream_version", -1}}) // To get the latest snapshot
 
@@ -41,19 +41,19 @@ func (s *SnapshotStore) Load(ctx context.Context, aggregate eventsourcing.EventS
 		return err
 	}
 
-	v, err := s.registry.Deserialize(result.SnapshotName, result.SnapshotData, registry.ValidateImplements((*eventsourcing.Snapshot)(nil)))
+	v, err := s.registry.Deserialize(result.SnapshotName, result.SnapshotData, registry.ValidateImplements((*esourcing.Snapshot)(nil)))
 	if err != nil {
 		return err
 	}
 
-	if err := eventsourcing.LoadSnapshot(aggregate, v.(eventsourcing.Snapshot), result.StreamVersion); err != nil {
+	if err := esourcing.LoadSnapshot(aggregate, v.(esourcing.Snapshot), result.StreamVersion); err != nil {
 		return err
 	}
 
 	return s.AggregateStore.Load(ctx, aggregate)
 }
 
-func (s *SnapshotStore) Save(ctx context.Context, aggregate eventsourcing.EventSourcedAggregate) error {
+func (s *SnapshotStore) Save(ctx context.Context, aggregate esourcing.EventSourcedAggregate) error {
 	if err := s.AggregateStore.Save(ctx, aggregate); err != nil {
 		return err
 	}
@@ -62,9 +62,9 @@ func (s *SnapshotStore) Save(ctx context.Context, aggregate eventsourcing.EventS
 		return nil
 	}
 
-	sser, ok := aggregate.(eventsourcing.Snapshotter)
+	sser, ok := aggregate.(esourcing.Snapshotter)
 	if !ok {
-		return fmt.Errorf("%T does not implement eventsourcing.Snapshotter", aggregate)
+		return fmt.Errorf("%T does not implement esourcing.Snapshotter", aggregate)
 	}
 
 	snapshot := sser.ToSnapshot()
@@ -91,7 +91,7 @@ func (s *SnapshotStore) Save(ctx context.Context, aggregate eventsourcing.EventS
 }
 
 // TODO use injected & configurable strategies
-func (SnapshotStore) shouldSnapshot(aggregate eventsourcing.EventSourcedAggregate) bool {
+func (SnapshotStore) shouldSnapshot(aggregate esourcing.EventSourcedAggregate) bool {
 	var maxChanges = 3 // low for demonstration; production envs should use higher values 50, 75, 100...
 	var pendingVersion = aggregate.PendingVersion()
 	var pendingChanges = len(aggregate.Events())

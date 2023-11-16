@@ -5,33 +5,33 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/stackus/errors"
-	"github.com/startcodextech/goevents/eventsourcing"
+	"github.com/startcodextech/goevents/esourcing"
 	"github.com/startcodextech/goevents/registry"
 )
 
 type SnapshotStore struct {
-	eventsourcing.AggregateStore
+	esourcing.AggregateStore
 	tableName string
 	db        DB
 	registry  registry.Registry
 }
 
-var _ eventsourcing.AggregateStore = (*SnapshotStore)(nil)
+var _ esourcing.AggregateStore = (*SnapshotStore)(nil)
 
-func NewSnapshotStore(tableName string, db DB, registry registry.Registry) eventsourcing.AggregateStoreMiddleware {
+func NewSnapshotStore(tableName string, db DB, registry registry.Registry) esourcing.AggregateStoreMiddleware {
 	snapshots := SnapshotStore{
 		tableName: tableName,
 		db:        db,
 		registry:  registry,
 	}
 
-	return func(store eventsourcing.AggregateStore) eventsourcing.AggregateStore {
+	return func(store esourcing.AggregateStore) esourcing.AggregateStore {
 		snapshots.AggregateStore = store
 		return snapshots
 	}
 }
 
-func (s SnapshotStore) Load(ctx context.Context, aggregate eventsourcing.EventSourcedAggregate) error {
+func (s SnapshotStore) Load(ctx context.Context, aggregate esourcing.EventSourcedAggregate) error {
 
 	var entityVersion int
 	var snapshotName string
@@ -44,19 +44,19 @@ func (s SnapshotStore) Load(ctx context.Context, aggregate eventsourcing.EventSo
 		return err
 	}
 
-	v, err := s.registry.Deserialize(snapshotName, snapshotData, registry.ValidateImplements((*eventsourcing.Snapshot)(nil)))
+	v, err := s.registry.Deserialize(snapshotName, snapshotData, registry.ValidateImplements((*esourcing.Snapshot)(nil)))
 	if err != nil {
 		return err
 	}
 
-	if err := eventsourcing.LoadSnapshot(aggregate, v.(eventsourcing.Snapshot), entityVersion); err != nil {
+	if err := esourcing.LoadSnapshot(aggregate, v.(esourcing.Snapshot), entityVersion); err != nil {
 		return err
 	}
 
 	return s.AggregateStore.Load(ctx, aggregate)
 }
 
-func (s SnapshotStore) Save(ctx context.Context, aggregate eventsourcing.EventSourcedAggregate) error {
+func (s SnapshotStore) Save(ctx context.Context, aggregate esourcing.EventSourcedAggregate) error {
 	if err := s.AggregateStore.Save(ctx, aggregate); err != nil {
 		return err
 	}
@@ -65,9 +65,9 @@ func (s SnapshotStore) Save(ctx context.Context, aggregate eventsourcing.EventSo
 		return nil
 	}
 
-	sser, ok := aggregate.(eventsourcing.Snapshotter)
+	sser, ok := aggregate.(esourcing.Snapshotter)
 	if !ok {
-		return fmt.Errorf("%T does not implelement eventsourcing.Snapshotter", aggregate)
+		return fmt.Errorf("%T does not implelement esourcing.Snapshotter", aggregate)
 	}
 
 	snapshot := sser.ToSnapshot()
@@ -83,7 +83,7 @@ func (s SnapshotStore) Save(ctx context.Context, aggregate eventsourcing.EventSo
 }
 
 // TODO use injected & configurable strategies
-func (SnapshotStore) shouldSnapshot(aggregate eventsourcing.EventSourcedAggregate) bool {
+func (SnapshotStore) shouldSnapshot(aggregate esourcing.EventSourcedAggregate) bool {
 	var maxChanges = 3 // low for demonstration; production envs should use higher values 50, 75, 100...
 	var pendingVersion = aggregate.PendingVersion()
 	var pendingChanges = len(aggregate.Events())

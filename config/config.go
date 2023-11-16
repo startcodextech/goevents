@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"github.com/kelseyhightower/envconfig"
 	"github.com/startcodextech/goevents/rpc"
 	"github.com/startcodextech/goevents/web"
 	"os"
@@ -9,24 +10,25 @@ import (
 )
 
 type (
-	SqlConfig struct {
-		Conn string `required:"true"`
+	DBConfig struct {
+		Driver string `envconfig:"DB_DRIVER" default:"mongo"`
+		Conn   string `required:"true"`
 	}
 
 	NatsConfig struct {
 		URL    string `required:"true"`
-		Stream string `default:"mallbots"`
+		Stream string `default:"goevents"`
 	}
 
 	OtelConfig struct {
-		ServiceName      string `envconfig:"SERVICE_NAME" default:"service"`
+		ServiceName      string `envconfig:"SERVICE_NAME" default:"goevents"`
 		ExporterEndpoint string `envconfig:"EXPORTER_OTLP_ENDPOINT" default:"http://collector:4317"`
 	}
 
 	AppConfig struct {
 		Environment     string
 		LogLevel        string `envconfig:"LOG_LEVEL" default:"DEBUG"`
-		PG              SqlConfig
+		DB              DBConfig
 		Nats            NatsConfig
 		Rpc             rpc.RpcConfig
 		Web             web.WebConfig
@@ -45,6 +47,8 @@ func InitConfig() (cfg AppConfig, err error) {
 	if len(dbDriver) == 0 {
 		err = fmt.Errorf("DB_DRIVER environment variable is not set")
 	}
+
+	err = envconfig.Process("", &cfg)
 
 	return
 }

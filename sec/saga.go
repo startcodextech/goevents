@@ -1,13 +1,13 @@
 package sec
 
-import "github.com/startcodextech/goevents/asyncmessages"
+import "github.com/startcodextech/goevents/async"
 
 const (
-	SagaCommandIDHdr   = asyncmessages.CommandHdrPrefix + "SAGA_ID"
-	SagaCommandNameHdr = asyncmessages.CommandHdrPrefix + "SAGA_NAME"
+	SagaCommandIDHdr   = async.CommandHdrPrefix + "SAGA_ID"
+	SagaCommandNameHdr = async.CommandHdrPrefix + "SAGA_NAME"
 
-	SagaReplyIDHdr   = asyncmessages.ReplyHdrPrefix + "SAGA_ID"
-	SagaReplyNameHdr = asyncmessages.ReplyHdrPrefix + "SAGA_NAME"
+	SagaReplyIDHdr   = async.ReplyHdrPrefix + "SAGA_ID"
+	SagaReplyNameHdr = async.ReplyHdrPrefix + "SAGA_NAME"
 )
 
 type (

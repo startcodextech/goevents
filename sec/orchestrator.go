@@ -2,7 +2,7 @@ package sec
 
 import (
 	"context"
-	"github.com/startcodextech/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/async"
 	"github.com/startcodextech/goevents/ddd"
 	"github.com/startcodextech/goevents/errorsotel"
 	"time"
@@ -22,13 +22,13 @@ type (
 	orchestrator[T any] struct {
 		saga      Saga[T]
 		repo      SagaRepository[T]
-		publisher asyncmessages.CommandPublisher
+		publisher async.CommandPublisher
 	}
 )
 
 var _ Orchestrator[any] = (*orchestrator[any])(nil)
 
-func NewOrchestrator[T any](saga Saga[T], repo SagaRepository[T], publisher asyncmessages.CommandPublisher) Orchestrator[T] {
+func NewOrchestrator[T any](saga Saga[T], repo SagaRepository[T], publisher async.CommandPublisher) Orchestrator[T] {
 	return orchestrator[T]{
 		saga:      saga,
 		repo:      repo,
@@ -106,10 +106,10 @@ func (o orchestrator[T]) handle(ctx context.Context, sagaCtx *SagaContext[T], re
 	}
 
 	var success bool
-	if outcome, ok := reply.Metadata().Get(asyncmessages.ReplyOutcomeHdr).(string); !ok {
+	if outcome, ok := reply.Metadata().Get(async.ReplyOutcomeHdr).(string); !ok {
 		success = false
 	} else {
-		success = outcome == asyncmessages.OutcomeSuccess
+		success = outcome == async.OutcomeSuccess
 	}
 
 	switch {
@@ -187,7 +187,7 @@ func (o orchestrator[T]) processResult(ctx context.Context, result stepResult[T]
 func (o orchestrator[T]) publishCommand(ctx context.Context, result stepResult[T]) error {
 	cmd := result.cmd
 
-	cmd.Metadata().Set(asyncmessages.CommandReplyChannelHdr, o.saga.ReplyTopic())
+	cmd.Metadata().Set(async.CommandReplyChannelHdr, o.saga.ReplyTopic())
 	cmd.Metadata().Set(SagaCommandIDHdr, result.ctx.ID)
 	cmd.Metadata().Set(SagaCommandNameHdr, o.saga.Name())
 

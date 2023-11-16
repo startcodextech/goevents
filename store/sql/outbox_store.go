@@ -10,9 +10,9 @@ import (
 	"github.com/jackc/pgerrcode"
 	"github.com/jackc/pgtype"
 	"github.com/stackus/errors"
-	"github.com/startcodextech/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/async"
 	"github.com/startcodextech/goevents/store"
-	"github.com/startcodextech/goevents/transactionmanager"
+	"github.com/startcodextech/goevents/transmanager"
 	"time"
 )
 
@@ -23,7 +23,7 @@ type (
 	}
 )
 
-var _ transactionmanager.OutboxStore = (*OutboxStore)(nil)
+var _ transmanager.OutboxStore = (*OutboxStore)(nil)
 
 func NewOutboxStore(tableName string, db DB) OutboxStore {
 	return OutboxStore{
@@ -32,7 +32,7 @@ func NewOutboxStore(tableName string, db DB) OutboxStore {
 	}
 }
 
-func (s OutboxStore) Save(ctx context.Context, msg asyncmessages.Message) error {
+func (s OutboxStore) Save(ctx context.Context, msg async.Message) error {
 
 	metadata, err := json.Marshal(msg.Metadata())
 	if err != nil {
@@ -46,14 +46,14 @@ func (s OutboxStore) Save(ctx context.Context, msg asyncmessages.Message) error 
 			var mysqlErr *mysql.MySQLError
 			if errors.As(err, &mysqlErr) {
 				if mysqlErr.Number == 1062 {
-					return transactionmanager.ErrDuplicateMessage(msg.ID())
+					return transmanager.ErrDuplicateMessage(msg.ID())
 				}
 			}
 		default:
 			var pgErr *pgconn.PgError
 			if errors.As(err, &pgErr) {
 				if pgErr.Code == pgerrcode.UniqueViolation {
-					return transactionmanager.ErrDuplicateMessage(msg.ID())
+					return transmanager.ErrDuplicateMessage(msg.ID())
 				}
 			}
 		}
@@ -62,7 +62,7 @@ func (s OutboxStore) Save(ctx context.Context, msg asyncmessages.Message) error 
 	return err
 }
 
-func (s OutboxStore) FindUnpublished(ctx context.Context, limit int) ([]asyncmessages.Message, error) {
+func (s OutboxStore) FindUnpublished(ctx context.Context, limit int) ([]async.Message, error) {
 	rows, err := s.db.QueryContext(ctx, s.table(s.queryFindUnpublished(), limit))
 	if err != nil {
 		return nil, err
@@ -74,7 +74,7 @@ func (s OutboxStore) FindUnpublished(ctx context.Context, limit int) ([]asyncmes
 		}
 	}(rows)
 
-	var msgs []asyncmessages.Message
+	var msgs []async.Message
 
 	for rows.Next() {
 		var metadata []byte

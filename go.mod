@@ -10,6 +10,7 @@ require (
 	github.com/jackc/pgconn v1.14.1
 	github.com/jackc/pgerrcode v0.0.0-20220416144525-469b46aa5efa
 	github.com/jackc/pgtype v1.14.0
+	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/nats-io/nats.go v1.31.0
 	github.com/pressly/goose/v3 v3.15.1
 	github.com/prometheus/client_golang v1.17.0

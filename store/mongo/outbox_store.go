@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/stackus/errors"
-	"github.com/startcodextech/goevents/asyncmessages"
+	"github.com/startcodextech/goevents/async"
 	"github.com/startcodextech/goevents/store"
-	"github.com/startcodextech/goevents/transactionmanager"
+	"github.com/startcodextech/goevents/transmanager"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -19,7 +19,7 @@ type (
 	}
 )
 
-var _ transactionmanager.OutboxStore = (*OutboxStore)(nil)
+var _ transmanager.OutboxStore = (*OutboxStore)(nil)
 
 func NewOutboxStore(collection Collection) OutboxStore {
 	return OutboxStore{
@@ -27,7 +27,7 @@ func NewOutboxStore(collection Collection) OutboxStore {
 	}
 }
 
-func (s OutboxStore) Save(ctx context.Context, msg asyncmessages.Message) error {
+func (s OutboxStore) Save(ctx context.Context, msg async.Message) error {
 	metadata, err := json.Marshal(msg.Metadata())
 	if err != nil {
 		return err
@@ -50,11 +50,11 @@ func (s OutboxStore) Save(ctx context.Context, msg asyncmessages.Message) error 
 	return nil
 }
 
-func (s OutboxStore) FindUnpublished(ctx context.Context, limit int) ([]asyncmessages.Message, error) {
+func (s OutboxStore) FindUnpublished(ctx context.Context, limit int) ([]async.Message, error) {
 	filter := bson.D{{"published_at", nil}}
 	findOptions := options.Find().SetLimit(int64(limit))
 
-	var msgs []asyncmessages.Message
+	var msgs []async.Message
 	cursor, err := s.collection.Find(ctx, filter, findOptions)
 	if err != nil {
 		return msgs, err

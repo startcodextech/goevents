@@ -8,13 +8,15 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/startcodextech/goevents/config"
 	"github.com/startcodextech/goevents/waiter"
+	"go.mongodb.org/mongo-driver/mongo"
 	"google.golang.org/grpc"
 )
 
 type (
 	Service interface {
 		Config() config.AppConfig
-		DB() *sql.DB
+		SqlDB() *sql.DB
+		MongoDB() *mongo.Client
 		JS() nats.JetStreamContext
 		Mux() *chi.Mux
 		RPC() *grpc.Server

@@ -3,8 +3,8 @@ package mongo
 import (
 	"context"
 	"encoding/json"
-	"github.com/startcodextech/goevents/asyncmessages"
-	"github.com/startcodextech/goevents/transactionmanager"
+	"github.com/startcodextech/goevents/async"
+	"github.com/startcodextech/goevents/transmanager"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -14,7 +14,7 @@ type (
 	}
 )
 
-var _ transactionmanager.InboxStore = (*InboxStore)(nil)
+var _ transmanager.InboxStore = (*InboxStore)(nil)
 
 func NewInboxStore(collection Collection) InboxStore {
 	return InboxStore{
@@ -22,7 +22,7 @@ func NewInboxStore(collection Collection) InboxStore {
 	}
 }
 
-func (s InboxStore) Save(ctx context.Context, msg asyncmessages.IncomingMessage) error {
+func (s InboxStore) Save(ctx context.Context, msg async.IncomingMessage) error {
 	metadata, err := json.Marshal(msg.Metadata())
 	if err != nil {
 		return err
